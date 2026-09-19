@@ -65,4 +65,4 @@ El repositorio incluye un `Makefile`, pero actualmente no está configurado para
 - `make` (opcional, pero recomendado)
 - `pkg-config`
 - GTK 4 (`libgtk-4-dev`)
-- entorno gráfico disponible para ejecutar la aplicación
+
