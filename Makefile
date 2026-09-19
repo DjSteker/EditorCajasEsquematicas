@@ -1,18 +1,28 @@
-.DEFAULT_GOAL := help
+CXX = g++
+TARGET = EditorCajasV3
 
-.PHONY: help build test clean
+CXXFLAGS = -std=c++17 $(shell pkg-config --cflags gtk4)
+LDLIBS = $(shell pkg-config --libs gtk4)
 
-help: ## Muestra los comandos disponibles
-	@echo "EditorCajasEsquematicas"
-	@echo
-	@echo "Comandos:"
-	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z0-9_-]+:.*##/ {printf "  %-10s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+SOURCES = EditorCajasV0.cpp \
+	dialogo_archivo.cpp \
+	editor_interfaz.cpp \
+	procesador_celdas.cpp
 
-build: ## Prepara o compila el proyecto
-	@echo "No hay un sistema de compilación configurado todavía."
+OBJECTS = $(SOURCES:.cpp=.o)
 
-test: ## Ejecuta las pruebas del proyecto
-	@echo "No hay pruebas configuradas todavía."
+.PHONY: all clean run
 
-clean: ## Elimina archivos generados
-	@echo "No hay archivos generados para limpiar."
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(CXX) $(OBJECTS) -o $@ $(LDLIBS)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+run: $(TARGET)
+	./$(TARGET)
+
+clean:
+	rm -f $(OBJECTS) $(TARGET)
